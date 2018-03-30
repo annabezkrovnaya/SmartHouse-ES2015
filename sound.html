@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="utf-8">
+      <title>Sound</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+      <link rel="stylesheet" type="text/css" href="css/my_style.css" />
+      <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+      <script src="Smart.js"></script>
+      <script src="Device.js"></script>
+      <script src="Tv.js"></script>
+      <script src="Coffee.js"></script>
+      <script src="Sound.js"></script>
+      <script src="Data.js"></script>
+      <script src="Type.js"></script>
+      <script src="jquery-3.2.1.js"></script>
+      <script src="js/bootstrap.js"></script>
+   </head>
+   <body>
+      <div class="container">
+         <div class="row">
+            <div class="col-xs-3 col-sm-16 col-md-9 col-lg-12"><a href="#"><img alt="site logo" class="img-responsive"></a></div>
+         </div>
+      </div>
+      <div class="container">
+         <div class="row">
+            <div class="col-xs-3 col-sm-6 col-md-9 col-lg-12">
+               <div class="sound" id="sound">
+                  <img src="img\sSound.png" alt="">
+                  <h3 id="timer"></h3>
+               </div>
+               <div class="switcher" id="switcher">
+               </div>
+               <div class="player" id="player">
+               </div>
+               <div class="info" id="info">
+                  <ul class="nav nav-tabs">
+                     <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                           Звук <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" id="dm">
+                        </ul>
+                     </li>
+                  </ul>
+               </div>
+           </div>
+         </div>
+      </div>
+      <div class="container">
+         <div class="row">
+            <div class="col-md-12">
+               <div class="music" id="music">
+               </br>
+                  <h4>МУЗЫКА:</h4>
+               </div>
+               <div class="emotion" id="emo">
+               </br>
+                  <h4>"НАСТРОЕНИЕ":</h4>
+               </div>
+               <div class="nature" id="nature">
+               </br>
+                  <h4>"ЗВУКИ ПРИРОДЫ":</h4>
+               </div>
+            </div>
+         </div>
+      </div>
+
+      <script type="text/javascript">
+      var img = document.body.children[0].children[0].children[0].children[0].children[0];
+      img.setAttribute("src", "img/logo.png");
+      var main = document.body.children[0].children[0].children[0].children[0];
+      main.setAttribute("href", "remote.html");
+
+      var tv = document.body.children[1].children[0].children[0].children[0];
+      tv.style.width = "570px";
+      tv.style.height = "325px";
+      tv.style.border = "5px solid #016189";
+
+      var title = document.body.children[2].children[0].children[0].children[0].children[1];
+      title.style.color = "#016189";
+
+      var title = document.body.children[2].children[0].children[0].children[1].children[1];
+      title.style.color = "#016189";
+
+      var title = document.body.children[2].children[0].children[0].children[2].children[1];
+      title.style.color = "#016189";
+
+      </script>
+
+      <script type="text/javascript">
+      var smart = Data.getSmart();
+      var dev = smart._deviceSet;
+      var soundDev = [];
+      for (var device in dev) {
+         if (dev[device]._type === "Звук") {
+            soundDev.push(dev[device]);
+         }
+      }
+      //console.dir(soundDev);
+      for (var i = 0; i < soundDev.length; i++) {
+         var soundMenu = document.getElementById('dm');
+         var sound = document.createElement('li');
+         var link = document.createElement('a');
+         link.innerHTML = soundDev[i]._name;
+         soundMenu.appendChild(sound);
+         sound.appendChild(link);
+      }
+
+      var composition = soundDev[0]._musicList;
+      for (var j = 0; j < composition.length; j++) {
+         var remote = document.getElementById('music');
+         var button = document.createElement('button');
+         button.className = 'btn btn-info';
+         button.setAttribute("type", "button");
+         button.setAttribute("id", "btn"+j);
+         var span = document.createElement('span');
+         span.className = 'btn-lg';
+         span.innerHTML = (j+1);
+         button.appendChild(span);
+         remote.appendChild(button);
+         button.addEventListener("click", function(event){
+            var btn = event.target;
+            var ind = btn.innerHTML - 1;
+            $('#sound').html(composition[ind]._image);
+            $('#player').html(composition[ind]._composition);
+         });
+      }
+
+      var emotion = soundDev[0]._emotionList;
+      for (var i = 0; i < emotion.length; i++) {
+         var remote = document.getElementById('emo');
+         var button = document.createElement('button');
+         button.className = 'btn btn-info';
+         button.setAttribute("type", "button");
+         button.setAttribute("id", "btn"+i);
+         var span = document.createElement('span');
+         span.className = 'btn-lg';
+         span.setAttribute("id", "e-btn"+i);
+         span.innerHTML = emotion[i]._name;
+         button.appendChild(span);
+         remote.appendChild(button);
+         button.addEventListener("click", function(event){
+            var btn = event.target;
+            var attr = btn.getAttribute("id");
+            var reg = /\D+/ig;
+            var ind = attr.replace(reg, '');
+            $('#sound').html(emotion[ind]._img);
+            $('#player').html(emotion[ind]._sound);
+            $('body').css("background", emotion[ind]._background);
+         });
+      }
+
+      var nature = soundDev[0]._natureList;
+      for (var i = 0; i < nature.length; i++) {
+         var remote = document.getElementById('nature');
+         var button = document.createElement('button');
+         button.className = 'btn btn-info';
+         button.setAttribute("type", "button");
+         button.setAttribute("id", "btn"+i);
+         var span = document.createElement('span');
+         span.className = 'btn-lg';
+         span.setAttribute("id", "n-btn"+i);
+         span.innerHTML = nature[i].name;
+         button.appendChild(span);
+         remote.appendChild(button);
+         button.addEventListener("click", function(event){
+            var btn = event.target;
+            var attr = btn.getAttribute("id");
+            var reg = /\D+/ig;
+            var ind = attr.replace(reg, '');
+            $('#sound').html(nature[ind].img);
+            $('#player').html(nature[ind].sound);
+         });
+      }
+
+      var switcher = document.createElement('button');
+      var swContainer =  document.getElementById('switcher');
+      switcher.className = 'btn btn-info';
+      switcher.setAttribute("type", "switch");
+      switcher.setAttribute("id", "sw-btn");
+      var spanSw = document.createElement('span');
+      spanSw.className = 'btn-lg';
+      spanSw.innerHTML = ('<i class="fa fa-power-off"></i>');
+      switcher.appendChild(spanSw);
+      swContainer.appendChild(switcher);
+
+      var switchDef = 0;
+         $(document).on('click', '#sw-btn', function () {
+            if(switchDef == 0) {
+               $('#timer').html('Пожалуйста, выберите музыку');
+               $('body').css("background", "white");
+               switchDef = 1;
+            }
+            else {
+               location.reload();
+            }
+         });
+
+      </script>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="utf-8">
+      <title>Добавить тип</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+      <link rel="stylesheet" type="text/css" href="css/my_style.css" />
+      <script src="Smart.js"></script>
+      <script src="Device.js"></script>
+      <script src="Tv.js"></script>
+      <script src="Coffee.js"></script>
+      <script src="Sound.js"></script>
+      <script src="Data.js"></script>
+      <script src="Type.js"></script>
+      <script src="jquery-3.2.1.js"></script>
+      <script src="js/bootstrap.js"></script>
+   </head>
+   <body>
+
+      <div class="container">
+         <div class="row">
+            <div class="col-xs-3 col-sm-16 col-md-9 col-lg-12"><a href="#"><img alt="site logo" class="img-responsive"></a></div>
+         </div>
+      </div>
+      <div class="container">
+         <div class="row">
+           <div class="col-md-6">
+             <div class="check" id="check">
+             </div>
+               <form class="form-horizontal">
+                  <div class="info">
+                       <h5 id="type"></h5>
+                       <h5 id="name"></h5>
+                   </div>
+                   <div class="form-group">
+                       <label for="inputType">Введите название устройства</label>
+                       <input id="inputName" type="name" class="form-control"  placeholder="Имя">
+                   </div>
+                       <button id="btn" type="submit" class="btn btn-submit"><span class="btn-lg">Принять</span></button>
+                </form>
+             </div>
+         </div>
+      </div>
+
+      <script>
+      var img = document.body.children[0].children[0].children[0].children[0].children[0];
+      img.setAttribute("src", "img/logo.png");
+      var main = document.body.children[0].children[0].children[0].children[0];
+      main.setAttribute("href", "remote.html");
+
+      </script>
+
+      <script type="text/javascript">
+       var sh1 = Data.getSmart();
+       var types = sh1._typeSet;
+
+       for(var i = 0; i< types.length; i++){
+           var radio = document.getElementById('check');
+           var inp = document.createElement('input');
+           inp.setAttribute('type', 'radio');
+           inp.setAttribute('id', 'rb'+i);
+           inp.setAttribute('name', 'rb');
+           var lab = document.createElement('label');
+           lab.setAttribute('type', 'radio');
+           lab.setAttribute('id', 'lb'+i);
+           lab.setAttribute('for', 'rb'+i);
+           lab.innerHTML = types[i]._title;
+           radio.appendChild(inp);
+           radio.appendChild(lab);
+           lab.addEventListener("click", function(event){
+             var lb = event.target;
+             var attr = lb.getAttribute("id");
+             var reg = /\D+/ig;
+             var ind = attr.replace(reg, '');
+             var type = types[ind]._title;
+                $('#type').html(type);
+          });
+        }
+           var btn = document.getElementById('btn');
+           btn.addEventListener('click', function(){
+             var name = document.getElementById('inputName').value;
+             $('#name').html(name);
+             var t = document.getElementById('type');
+             var t1 = t.innerHTML;
+             var newDevices = Data.addDevice(t1, name);
+             var r = newDevices._deviceSet;
+             alert("Вы добавили новое устройство. Теперь у вас " + r.length + " устройств");
+           });
+
+
+
+
+
+
+
+
+
+
+      </script>
+
+
+
+
+
+
+
+
+   </body>
+</html>

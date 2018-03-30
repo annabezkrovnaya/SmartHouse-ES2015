@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="utf-8">
+      <title>COFFEE</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+      <link rel="stylesheet" type="text/css" href="css/my_style.css" />
+      <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+      <script src="Smart.js"></script>
+      <script src="Device.js"></script>
+      <script src="Tv.js"></script>
+      <script src="Coffee.js"></script>
+      <script src="Sound.js"></script>
+      <script src="Data.js"></script>
+      <script src="Type.js"></script>
+      <script src="jquery-3.2.1.js"></script>
+      <script src="js/bootstrap.js"></script>
+   </head>
+   <body>
+      <div class="container">
+         <div class="row">
+            <div class="col-xs-3 col-sm-16 col-md-9 col-lg-12"><a href="#"><img alt="site logo" class="img-responsive"></a></div>
+         </div>
+      </div>
+      <div class="container">
+         <div class="row">
+            <div class="col-xs-3 col-sm-6 col-md-9 col-lg-12">
+               <div class="coffee" id="coffee">
+                  <img src="img/sCoffee.png" alt="">
+                  <h3 id="timer"></h3>
+               </div>
+               <div class="switcher" id="switcher">
+               </div>
+               <div class="info" id="info">
+                  <ul class="nav nav-tabs">
+                     <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                           Кофемашины <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" id="dm">
+                        </ul>
+                     </li>
+                  </ul>
+               </div>
+           </div>
+         </div>
+      </div>
+      <div class="container">
+         <div class="row">
+            <div class="col-md-12">
+               <div class="remoteControl" id="panel">
+                  <h4>ПРОГРАММЫ:</h4>
+
+               </div>
+            </div>
+         </div>
+      </div>
+
+      <script type="text/javascript">
+      var img = document.body.children[0].children[0].children[0].children[0].children[0];
+      img.setAttribute("src", "img/logo.png");
+      var main = document.body.children[0].children[0].children[0].children[0];
+      main.setAttribute("href", "remote.html");
+
+      var tv = document.body.children[1].children[0].children[0].children[0];
+      tv.style.width = "570px";
+      tv.style.height = "325px";
+      tv.style.border = "5px solid #016189";
+
+      var title = document.body.children[2].children[0].children[0].children[0].children[0];
+      title.style.color = "#016189";
+
+      </script>
+
+      <script type="text/javascript">
+      var sh1 = Data.getSmart();
+      var devicesC = sh1._deviceSet;
+      var coffeeDev = [];
+      for (var device in devicesC) {
+         if (devicesC[device]._type === "Кофе") {
+            coffeeDev.push(devicesC[device]);
+         }
+      }
+
+      for (var i = 0; i < coffeeDev.length; i++) {
+         var coffeeMenu = document.getElementById('dm');
+         var machine = document.createElement('li');
+         var link = document.createElement('a');
+         link.innerHTML = coffeeDev[i]._name;
+         coffeeMenu.appendChild(machine);
+         machine.appendChild(link);
+      }
+
+      var prog = coffeeDev[0]._programmList;
+      for (var i = 0; i < prog.length; i++) {
+         var panel = document.getElementById('panel');
+         var button = document.createElement('button');
+         button.className = 'btn btn-info';
+         button.setAttribute("type", "button");
+         button.setAttribute("disabled", "disabled");
+         var span = document.createElement('span');
+         span.className = 'btn-lg';
+         span.setAttribute("id", "c-btn"+i);
+         span.innerHTML = (prog[i]._title);
+         button.appendChild(span);
+         panel.appendChild(button);
+         button.addEventListener("click", function(event){
+            $('#timer').html('Кофе готовится. Пожалуйста, ожидайте');
+            var btn = event.target;
+            var attr = btn.getAttribute("id");
+            var reg = /\D+/ig;
+            var ind = attr.replace(reg, '');
+            var img = prog[ind]._img;
+            var time = prog[ind]._time;
+            setTimeout(function(){
+               $('#coffee').html(img);
+            }, time);
+            $('button').prop('disabled', true);
+            $('#sw-btn').prop('disabled', false);
+         });
+      }
+
+      var switcher = document.createElement('button');
+      var swContainer =  document.getElementById('switcher');
+      switcher.className = 'btn btn-info';
+      switcher.setAttribute("type", "switch");
+      switcher.setAttribute("id", "sw-btn");
+      var spanSw = document.createElement('span');
+      spanSw.className = 'btn-lg';
+      spanSw.innerHTML = ('<i class="fa fa-power-off"></i>');
+      switcher.appendChild(spanSw);
+      swContainer.appendChild(switcher);
+
+      var switchDef = 0;
+         $(document).on('click', '#sw-btn', function () {
+            if(switchDef == 0) {
+               $('#timer').html('Пожалуйста, выберите программу');
+               $('button').prop('disabled', false);
+               switchDef = 1;
+            }
+            else {
+               location.reload();
+            }
+         });
+
+      </script>

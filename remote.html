@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="utf-8">
+      <title>Умный Дом</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+      <link rel="stylesheet" type="text/css" href="css/my_style.css" />
+      <script src="Smart.js"></script>
+      <script src="Device.js"></script>
+      <script src="Tv.js"></script>
+      <script src="Coffee.js"></script>
+      <script src="Sound.js"></script>
+      <script src="Data.js"></script>
+      <script src="Type.js"></script>
+      <script src="jquery-3.2.1.js"></script>
+      <script src="js/bootstrap.js"></script>
+   </head>
+   <body>
+      <div class="container">
+         <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"><img alt="site logo" class="img-responsive"></div>
+         </div>
+      </div>
+      <div class="container">
+         <div class="row">
+            <div class="col-xs-3 col-sm-6 col-md-9 col-lg-12">
+           </div>
+         </div>
+      </div>
+      <div class="container">
+         <div class="btn-group-vertical">
+               <a href="#" class="btn blue"><span class="btn-lg">Добавить устройство</span></a>
+         </div>
+      </div>
+      <script>
+      var img = document.body.children[0].children[0].children[0].children[0];
+      img.setAttribute("src", "img/logo.png");
+      var btn1 = document.body.children[2].children[0].children[0];
+      btn1.setAttribute("href", "add_device.html");
+      </script>
+
+      <script type="text/javascript">
+         var smart = Data.getSmart();
+         var types = smart._typeSet;
+         for (var i = 0; i < types.length; i++) {
+            var box = document.body.children[1].children[0].children[0];
+
+            var div = document.createElement('div');
+            div.className = "serviceBox";
+            box.appendChild(div);
+
+            var h3 = document.createElement('h3');
+            h3.className = "title";
+            h3.innerHTML = types[i]._title;
+            div.appendChild(h3);
+
+            var div1 = document.createElement('div');
+            div1.className = "service-icon";
+            div.appendChild(div1);
+
+            var img = document.createElement('img');
+            img.setAttribute("src", types[i]._img);
+            img.setAttribute("alt", "icon");
+            div1.appendChild(img);
+
+            var div2 = document.createElement('div');
+            div2.className = "description";
+            div2.innerHTML = types[i]._description;
+            div.appendChild(div2);
+
+            var btn1 = document.createElement('a');
+            btn1.className = "read";
+            btn1.setAttribute("href", types[i]._url);
+            btn1.innerHTML = "Вперёд >>";
+            div.appendChild(btn1);
+         }
+
+      </script>
+   </body>
+</html>
