@@ -227,3 +227,9 @@ label[type="radio"]::before {
 .form-horizontal{
    margin: -50px;
 }
+
+h5{
+   color: #234261;
+   font-style: normal;
+   font-size: 1.1em;
+}

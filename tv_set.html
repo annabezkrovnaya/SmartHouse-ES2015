@@ -7,14 +7,14 @@
       <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
       <link rel="stylesheet" type="text/css" href="css/my_style.css" />
       <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
-      <script src="Smart.js"></script>
-      <script src="Device.js"></script>
-      <script src="Tv.js"></script>
-      <script src="Coffee.js"></script>
-      <script src="Sound.js"></script>
-      <script src="Data.js"></script>
-      <script src="Type.js"></script>
-      <script src="jquery-3.2.1.js"></script>
+      <script src="classes/Smart.js"></script>
+      <script src="classes/Device.js"></script>
+      <script src="classes/Tv.js"></script>
+      <script src="classes/Coffee.js"></script>
+      <script src="classes/Sound.js"></script>
+      <script src="classes/Data.js"></script>
+      <script src="classes/Type.js"></script>
+      <script src="js/jquery-3.2.1.js"></script>
       <script src="js/bootstrap.js"></script>
    </head>
    <body>
@@ -67,7 +67,7 @@
       var img = document.body.children[0].children[0].children[0].children[0].children[0];
       img.setAttribute("src", "img/logo.png");
       var main = document.body.children[0].children[0].children[0].children[0];
-      main.setAttribute("href", "remote.html");
+      main.setAttribute("href", "index.html");
 
       var tv = document.body.children[1].children[0].children[0].children[0];
       tv.style.width = "570px";
@@ -84,10 +84,10 @@
 
       <script type="text/javascript">
       var smh1 = Data.getSmart();
-      var devices = smh1._deviceSet;
+      var devices = smh1.getDeviceSet();
       var tvDev = [];
       for (var device in devices) {
-         if (devices[device]._type === "ТВ") {
+         if (devices[device].getType() === "ТВ") {
             tvDev.push(devices[device]);
          }
       }
@@ -96,12 +96,12 @@
          var tvMenu = document.getElementById('dm');
          var tvSet = document.createElement('li');
          var link = document.createElement('a');
-         link.innerHTML = tvDev[i]._name;
+         link.innerHTML = tvDev[i].getName();
          tvMenu.appendChild(tvSet);
          tvSet.appendChild(link);
       }
 
-      var chan = tvDev[0]._channelList;
+      var chan = tvDev[0].getChannelList();
       for (var i = 0; i < chan.length; i++) {
          var remote = document.getElementById('rc');
          var button = document.createElement('button');
@@ -144,7 +144,7 @@
       </script>
 
       <script type="text/javascript">
-      var films = tvDev[0]._seriesList;
+      var films = tvDev[0].getSeriesList();
       for (var i = 0; i < films.length; i++) {
          var remote = document.getElementById('fc');
          var button = document.createElement('button');

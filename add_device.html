@@ -6,14 +6,14 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
       <link rel="stylesheet" type="text/css" href="css/my_style.css" />
-      <script src="Smart.js"></script>
-      <script src="Device.js"></script>
-      <script src="Tv.js"></script>
-      <script src="Coffee.js"></script>
-      <script src="Sound.js"></script>
-      <script src="Data.js"></script>
-      <script src="Type.js"></script>
-      <script src="jquery-3.2.1.js"></script>
+      <script src="classes/Smart.js"></script>
+      <script src="classes/Device.js"></script>
+      <script src="classes/Tv.js"></script>
+      <script src="classes/Coffee.js"></script>
+      <script src="classes/Sound.js"></script>
+      <script src="classes/Data.js"></script>
+      <script src="classes/Type.js"></script>
+      <script src="js/jquery-3.2.1.js"></script>
       <script src="js/bootstrap.js"></script>
    </head>
    <body>
@@ -21,6 +21,17 @@
       <div class="container">
          <div class="row">
             <div class="col-xs-3 col-sm-16 col-md-9 col-lg-12"><a href="#"><img alt="site logo" class="img-responsive"></a></div>
+         </div>
+         <div class="info" id="info">
+            <ul class="nav nav-tabs">
+               <li class="dropdown">
+                  <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                     Устройства <span class="caret"></span>
+                  </a>
+                  <ul class="dropdown-menu" id="dm">
+                  </ul>
+               </li>
+            </ul>
          </div>
       </div>
       <div class="container">
@@ -32,28 +43,33 @@
                   <div class="info">
                        <h5 id="type"></h5>
                        <h5 id="name"></h5>
+                       <h5 id="message"></h5>
                    </div>
                    <div class="form-group">
                        <label for="inputType">Введите название устройства</label>
                        <input id="inputName" type="name" class="form-control"  placeholder="Имя">
                    </div>
-                       <button id="btn" type="submit" class="btn btn-submit"><span class="btn-lg">Принять</span></button>
+                       <button id="btn" type="button" class="btn blue"><span class="btn-lg">Принять</span></button>
                 </form>
              </div>
          </div>
       </div>
 
+
       <script>
       var img = document.body.children[0].children[0].children[0].children[0].children[0];
       img.setAttribute("src", "img/logo.png");
       var main = document.body.children[0].children[0].children[0].children[0];
-      main.setAttribute("href", "remote.html");
+      main.setAttribute("href", "index.html");
 
       </script>
 
       <script type="text/javascript">
        var sh1 = Data.getSmart();
-       var types = sh1._typeSet;
+       var types = sh1.getTypeSet();
+       var devices = sh1.getDeviceSet();
+       var currentType = null;
+
 
        for(var i = 0; i< types.length; i++){
            var radio = document.getElementById('check');
@@ -65,7 +81,7 @@
            lab.setAttribute('type', 'radio');
            lab.setAttribute('id', 'lb'+i);
            lab.setAttribute('for', 'rb'+i);
-           lab.innerHTML = types[i]._title;
+           lab.innerHTML = types[i].getTitle();
            radio.appendChild(inp);
            radio.appendChild(lab);
            lab.addEventListener("click", function(event){
@@ -73,28 +89,36 @@
              var attr = lb.getAttribute("id");
              var reg = /\D+/ig;
              var ind = attr.replace(reg, '');
-             var type = types[ind]._title;
+             var type = types[ind].getTitle();
+             currentType = type;
                 $('#type').html(type);
           });
         }
            var btn = document.getElementById('btn');
            btn.addEventListener('click', function(){
              var name = document.getElementById('inputName').value;
-             $('#name').html(name);
              var t = document.getElementById('type');
              var t1 = t.innerHTML;
-             var newDevices = Data.addDevice(t1, name);
-             var r = newDevices._deviceSet;
-             alert("Вы добавили новое устройство. Теперь у вас " + r.length + " устройств");
+             $('#type').html("Вы выбрали тип " + currentType);
+             $('#name').html("Вы ввели имя " + name);
+             sh1.addDevice(currentType, name);
+             var deviceMenu = document.getElementById('dm');
+             var device = document.createElement('li');
+             var link = document.createElement('a');
+             link.innerHTML = devices[devices.length - 1].getType() + " - " + devices[devices.length - 1].getName();
+             deviceMenu.appendChild(device);
+             device.appendChild(link);
+             $('#message').html("Вы успешно добавили новое устройствою. Смотрите в выпадающем списке");
            });
 
-
-
-
-
-
-
-
+           for (var i = 0; i < devices.length; i++) {
+            var deviceMenu = document.getElementById('dm');
+            var device = document.createElement('li');
+            var link = document.createElement('a');
+            link.innerHTML = devices[i].getType() + " - " + devices[i].getName();
+            deviceMenu.appendChild(device);
+            device.appendChild(link);
+         }
 
 
       </script>

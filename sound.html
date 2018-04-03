@@ -7,14 +7,14 @@
       <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
       <link rel="stylesheet" type="text/css" href="css/my_style.css" />
       <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
-      <script src="Smart.js"></script>
-      <script src="Device.js"></script>
-      <script src="Tv.js"></script>
-      <script src="Coffee.js"></script>
-      <script src="Sound.js"></script>
-      <script src="Data.js"></script>
-      <script src="Type.js"></script>
-      <script src="jquery-3.2.1.js"></script>
+      <script src="classes/Smart.js"></script>
+      <script src="classes/Device.js"></script>
+      <script src="classes/Tv.js"></script>
+      <script src="classes/Coffee.js"></script>
+      <script src="classes/Sound.js"></script>
+      <script src="classes/Data.js"></script>
+      <script src="classes/Type.js"></script>
+      <script src="js/jquery-3.2.1.js"></script>
       <script src="js/bootstrap.js"></script>
    </head>
    <body>
@@ -71,7 +71,7 @@
       var img = document.body.children[0].children[0].children[0].children[0].children[0];
       img.setAttribute("src", "img/logo.png");
       var main = document.body.children[0].children[0].children[0].children[0];
-      main.setAttribute("href", "remote.html");
+      main.setAttribute("href", "index.html");
 
       var tv = document.body.children[1].children[0].children[0].children[0];
       tv.style.width = "570px";
@@ -91,24 +91,23 @@
 
       <script type="text/javascript">
       var smart = Data.getSmart();
-      var dev = smart._deviceSet;
+      var dev = smart.getDeviceSet();
       var soundDev = [];
       for (var device in dev) {
-         if (dev[device]._type === "Звук") {
+         if (dev[device].getType() === "Звук") {
             soundDev.push(dev[device]);
          }
       }
-      //console.dir(soundDev);
       for (var i = 0; i < soundDev.length; i++) {
          var soundMenu = document.getElementById('dm');
          var sound = document.createElement('li');
          var link = document.createElement('a');
-         link.innerHTML = soundDev[i]._name;
+         link.innerHTML = soundDev[i].getName();
          soundMenu.appendChild(sound);
          sound.appendChild(link);
       }
 
-      var composition = soundDev[0]._musicList;
+      var composition = soundDev[0].getMusicList();
       for (var j = 0; j < composition.length; j++) {
          var remote = document.getElementById('music');
          var button = document.createElement('button');
@@ -123,8 +122,8 @@
          button.addEventListener("click", function(event){
             var btn = event.target;
             var ind = btn.innerHTML - 1;
-            $('#sound').html(composition[ind]._image);
-            $('#player').html(composition[ind]._composition);
+            $('#sound').html(composition[ind].getImage());
+            $('#player').html(composition[ind].getComposition());
          });
       }
 

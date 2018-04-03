@@ -7,14 +7,14 @@
       <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
       <link rel="stylesheet" type="text/css" href="css/my_style.css" />
       <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
-      <script src="Smart.js"></script>
-      <script src="Device.js"></script>
-      <script src="Tv.js"></script>
-      <script src="Coffee.js"></script>
-      <script src="Sound.js"></script>
-      <script src="Data.js"></script>
-      <script src="Type.js"></script>
-      <script src="jquery-3.2.1.js"></script>
+      <script src="classes/Smart.js"></script>
+      <script src="classes/Device.js"></script>
+      <script src="classes/Tv.js"></script>
+      <script src="classes/Coffee.js"></script>
+      <script src="classes/Sound.js"></script>
+      <script src="classes/Data.js"></script>
+      <script src="classes/Type.js"></script>
+      <script src="js/jquery-3.2.1.js"></script>
       <script src="js/bootstrap.js"></script>
    </head>
    <body>
@@ -61,7 +61,7 @@
       var img = document.body.children[0].children[0].children[0].children[0].children[0];
       img.setAttribute("src", "img/logo.png");
       var main = document.body.children[0].children[0].children[0].children[0];
-      main.setAttribute("href", "remote.html");
+      main.setAttribute("href", "index.html");
 
       var tv = document.body.children[1].children[0].children[0].children[0];
       tv.style.width = "570px";
@@ -75,10 +75,10 @@
 
       <script type="text/javascript">
       var sh1 = Data.getSmart();
-      var devicesC = sh1._deviceSet;
+      var devicesC = sh1.getDeviceSet();
       var coffeeDev = [];
       for (var device in devicesC) {
-         if (devicesC[device]._type === "Кофе") {
+         if (devicesC[device].getType() === "Кофе") {
             coffeeDev.push(devicesC[device]);
          }
       }
@@ -87,7 +87,7 @@
          var coffeeMenu = document.getElementById('dm');
          var machine = document.createElement('li');
          var link = document.createElement('a');
-         link.innerHTML = coffeeDev[i]._name;
+         link.innerHTML = coffeeDev[i].getName();
          coffeeMenu.appendChild(machine);
          machine.appendChild(link);
       }
@@ -102,7 +102,7 @@
          var span = document.createElement('span');
          span.className = 'btn-lg';
          span.setAttribute("id", "c-btn"+i);
-         span.innerHTML = (prog[i]._title);
+         span.innerHTML = (prog[i].getTitle());
          button.appendChild(span);
          panel.appendChild(button);
          button.addEventListener("click", function(event){
@@ -111,8 +111,8 @@
             var attr = btn.getAttribute("id");
             var reg = /\D+/ig;
             var ind = attr.replace(reg, '');
-            var img = prog[ind]._img;
-            var time = prog[ind]._time;
+            var img = prog[ind].getImg();
+            var time = prog[ind].getTime();
             setTimeout(function(){
                $('#coffee').html(img);
             }, time);

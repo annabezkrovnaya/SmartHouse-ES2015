@@ -8,7 +8,6 @@ class TvSet extends Device{
       this._volume = volume;
       this._channelList = channelList;
       this._seriesList = seriesList;
-      this._defaultChannel = this._channelList[0];
    }
 
    getChannelNum(){

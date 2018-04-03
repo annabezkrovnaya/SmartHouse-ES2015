@@ -10,7 +10,7 @@ class Data {
    this.channel4 = '<iframe id="channal" width="560" height="315" src="https://www.youtube.com/embed/LMT1tajuyls?rel=0&showinfo=0&autoplay=1"  frameborder="0" allowfullscreen></iframe>';
    this.channel5 = '<iframe id="channal" width="560" height="315" src="https://www.youtube.com/embed/UoKlKx-3FcA?rel=0&showinfo=0&autoplay=1"  frameborder="0" allowfullscreen></iframe>';
 
-   this.type1 = new Type("TB", "img/icon-tv.png", "Здесь можно смотреть телевизионные передачи и любимые сериалы", "tv_set.html");
+   this.type1 = new Type("ТВ", "img/icon-tv.png", "Здесь можно смотреть телевизионные передачи и любимые сериалы", "tv_set.html");
    this.type2 = new Type("Звук", "img/icon-sound.png", "Здесь можно послушать музыку или включить фоновый саунд", "sound.html");
    this.type3 = new Type("Кофе", "img/icon-coffee.png", "Множество сортов кофе на выбор к любому времени и настроению", "coffee.html");
 
@@ -37,22 +37,20 @@ class Data {
 
    this.typeList = [this.type1, this.type2, this.type3];
    this.deviceList = [this.tv1, this.tv2, this.coffee1, this.sound1];
-   this.sh = new Smart(this.deviceList, this.typeList);
+   this.sh = new Smart();
+   this.sh.setTypeSet(this.typeList);
+   this.sh.setDeviceSet(this.deviceList);
 }
 
-
    static getSmart(){
-      let smart = new Data;
+      let smart = new Data();
       return smart.sh;
    }
 
-   static addDevice(type, name){
-      let smart = Data.getSmart();
-      let devices = smart._deviceSet;
-      let device = {_type: type, _name: name};
-      devices.push(device);
-      let typeList = smart._typeSet;
-      let newSmart = new Smart(devices, typeList);
-      return newSmart;
+   static setSmart(smart1){
+      let smart = new Data();
+      smart.sh = smart1;
    }
+
+
 }

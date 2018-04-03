@@ -6,14 +6,14 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
       <link rel="stylesheet" type="text/css" href="css/my_style.css" />
-      <script src="Smart.js"></script>
-      <script src="Device.js"></script>
-      <script src="Tv.js"></script>
-      <script src="Coffee.js"></script>
-      <script src="Sound.js"></script>
-      <script src="Data.js"></script>
-      <script src="Type.js"></script>
-      <script src="jquery-3.2.1.js"></script>
+      <script src="classes/Smart.js"></script>
+      <script src="classes/Device.js"></script>
+      <script src="classes/Tv.js"></script>
+      <script src="classes/Coffee.js"></script>
+      <script src="classes/Sound.js"></script>
+      <script src="classes/Data.js"></script>
+      <script src="classes/Type.js"></script>
+      <script src="js/jquery-3.2.1.js"></script>
       <script src="js/bootstrap.js"></script>
    </head>
    <body>
@@ -42,7 +42,7 @@
 
       <script type="text/javascript">
          var smart = Data.getSmart();
-         var types = smart._typeSet;
+         var types = smart.getTypeSet();
          for (var i = 0; i < types.length; i++) {
             var box = document.body.children[1].children[0].children[0];
 
@@ -52,7 +52,7 @@
 
             var h3 = document.createElement('h3');
             h3.className = "title";
-            h3.innerHTML = types[i]._title;
+            h3.innerHTML = types[i].getTitle();
             div.appendChild(h3);
 
             var div1 = document.createElement('div');
@@ -60,18 +60,18 @@
             div.appendChild(div1);
 
             var img = document.createElement('img');
-            img.setAttribute("src", types[i]._img);
+            img.setAttribute("src", types[i].getImg());
             img.setAttribute("alt", "icon");
             div1.appendChild(img);
 
             var div2 = document.createElement('div');
             div2.className = "description";
-            div2.innerHTML = types[i]._description;
+            div2.innerHTML = types[i].getDescription();
             div.appendChild(div2);
 
             var btn1 = document.createElement('a');
             btn1.className = "read";
-            btn1.setAttribute("href", types[i]._url);
+            btn1.setAttribute("href", types[i].getUrl());
             btn1.innerHTML = "Вперёд >>";
             div.appendChild(btn1);
          }

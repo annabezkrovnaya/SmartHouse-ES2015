@@ -24,8 +24,34 @@ class Smart {
       this._typeSet = typeSet;
    }
 
-   addDevice(device){
-      this._deviceSet.push(device);
+   addDevice(type, name){
+      let newDevice = null;
+
+      switch (type) {
+         case "ТВ": newDevice = new TvSet(name);
+            break;
+         case "Звук": newDevice = new Sound(name);
+            break;
+         case "Кофе": newDevice = new Coffee(name);
+            break;
+         default: newDevice = new TvSet(name);
+      }
+      /*if(type === "ТВ"){
+         newDevice = new TvSet(name);
+      }
+      if else (type === "Звук"){
+         newDevice = new Sound(name);
+      }
+      if else (type === "Кофе") {
+         newDevice = new Coffee(name);
+      }
+
+      else {
+         newDevice = new TvSet(name);
+      }*/
+
+
+      this._deviceSet.push(newDevice);
    }
 
    updateDevice(name, deviceNew){
