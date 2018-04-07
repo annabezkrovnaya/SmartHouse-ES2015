@@ -22,17 +22,6 @@
          <div class="row">
             <div class="col-xs-3 col-sm-16 col-md-9 col-lg-12"><a href="#"><img alt="site logo" class="img-responsive"></a></div>
          </div>
-         <div class="info" id="info">
-            <ul class="nav nav-tabs">
-               <li class="dropdown">
-                  <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                     Устройства <span class="caret"></span>
-                  </a>
-                  <ul class="dropdown-menu" id="dm">
-                  </ul>
-               </li>
-            </ul>
-         </div>
       </div>
       <div class="container">
          <div class="row">
@@ -67,7 +56,7 @@
       <script type="text/javascript">
        var sh1 = Data.getSmart();
        var types = sh1.getTypeSet();
-       var devices = sh1.getDeviceSet();
+       var devices = Data.getStorage();
        var currentType = null;
 
 
@@ -101,25 +90,20 @@
              var t1 = t.innerHTML;
              $('#type').html("Вы выбрали тип " + currentType);
              $('#name').html("Вы ввели имя " + name);
-             sh1.addDevice(currentType, name);
-             var deviceMenu = document.getElementById('dm');
-             var device = document.createElement('li');
-             var link = document.createElement('a');
-             link.innerHTML = devices[devices.length - 1].getType() + " - " + devices[devices.length - 1].getName();
-             deviceMenu.appendChild(device);
-             device.appendChild(link);
-             $('#message').html("Вы успешно добавили новое устройствою. Смотрите в выпадающем списке");
+             var newDevice;
+             switch(currentType){
+                case "ТВ": newDevice = new TvSet(name);
+                   break;
+                case "Звук": newDevice = new Sound(name);
+                   break;
+                case "Кофе": newDevice = new Coffee(name);
+                   break;
+             }
+             var serialDev = JSON.stringify(newDevice);
+             var index = localStorage.length;
+             localStorage.setItem('device' + index, serialDev);
+             $('#message').html("Вы успешно добавили новое устройство");
            });
-
-           for (var i = 0; i < devices.length; i++) {
-            var deviceMenu = document.getElementById('dm');
-            var device = document.createElement('li');
-            var link = document.createElement('a');
-            link.innerHTML = devices[i].getType() + " - " + devices[i].getName();
-            deviceMenu.appendChild(device);
-            device.appendChild(link);
-         }
-
 
       </script>
 

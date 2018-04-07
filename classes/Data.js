@@ -47,9 +47,22 @@ class Data {
       return smart.sh;
    }
 
-   static setSmart(smart1){
+   static setStorage(){
       let smart = new Data();
-      smart.sh = smart1;
+      let smart1 = smart.sh;
+      let dev = smart1.getDeviceSet();
+      for (var i = 0; i < dev.length; i++) {
+         let serialDev = JSON.stringify(dev[i]);
+         localStorage.setItem("device" + i, serialDev);
+      }
+   }
+   static getStorage(){
+      let array = [];
+      for (var i = 0; i < localStorage.length; i++) {
+         let returnDev = JSON.parse(localStorage.getItem("device" + i));
+         array.push(returnDev);
+      }
+      return array;
    }
 
 

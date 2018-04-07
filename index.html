@@ -42,6 +42,8 @@
 
       <script type="text/javascript">
          var smart = Data.getSmart();
+         Data.setStorage();
+         console.dir(localStorage);
          var types = smart.getTypeSet();
          for (var i = 0; i < types.length; i++) {
             var box = document.body.children[1].children[0].children[0];

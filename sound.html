@@ -90,11 +90,10 @@
       </script>
 
       <script type="text/javascript">
-      var smart = Data.getSmart();
-      var dev = smart.getDeviceSet();
+      var dev = Data.getStorage();
       var soundDev = [];
       for (var device in dev) {
-         if (dev[device].getType() === "Звук") {
+         if (dev[device]._type === "Звук") {
             soundDev.push(dev[device]);
          }
       }
@@ -102,12 +101,12 @@
          var soundMenu = document.getElementById('dm');
          var sound = document.createElement('li');
          var link = document.createElement('a');
-         link.innerHTML = soundDev[i].getName();
+         link.innerHTML = soundDev[i]._name;
          soundMenu.appendChild(sound);
          sound.appendChild(link);
       }
 
-      var composition = soundDev[0].getMusicList();
+      var composition = soundDev[0]._musicList;
       for (var j = 0; j < composition.length; j++) {
          var remote = document.getElementById('music');
          var button = document.createElement('button');
@@ -122,8 +121,8 @@
          button.addEventListener("click", function(event){
             var btn = event.target;
             var ind = btn.innerHTML - 1;
-            $('#sound').html(composition[ind].getImage());
-            $('#player').html(composition[ind].getComposition());
+            $('#sound').html(composition[ind]._image);
+            $('#player').html(composition[ind]._composition);
          });
       }
 
